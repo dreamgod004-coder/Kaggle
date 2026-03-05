@@ -1,0 +1,678 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kaggle - Datasets</title>
+  <style>
+    :root {
+      --bg: #ffffff;
+      --text: #171717;
+      --muted: #6b7280;
+      --border: #e5e7eb;
+      --soft: #f5f5f5;
+      --chip: #fafafa;
+      --black: #111111;
+      --radius: 14px;
+      --sidebar-w: 250px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    .layout {
+      min-height: 100vh;
+    }
+
+    .sidebar {
+      position: fixed;
+      left: 0;
+      top: 0;
+      width: var(--sidebar-w);
+      height: 100vh;
+      border-right: 1px solid var(--border);
+      background: #fff;
+      padding: 22px 14px;
+      overflow-y: auto;
+    }
+
+    .logo {
+      font-size: 30px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      margin: 0 10px 18px;
+    }
+
+    .create-btn {
+      width: calc(100% - 20px);
+      margin: 0 10px 18px;
+      border: 1px solid var(--border);
+      background: var(--soft);
+      color: #111;
+      border-radius: 999px;
+      padding: 10px 14px;
+      font-weight: 600;
+      cursor: pointer;
+      text-align: left;
+    }
+
+    .nav {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      padding: 0 6px;
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 10px;
+      border-radius: 10px;
+      color: #2b2b2b;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .nav-item.active {
+      background: var(--soft);
+      font-weight: 700;
+      color: #111;
+    }
+
+    .main {
+      margin-left: var(--sidebar-w);
+      width: calc(100% - var(--sidebar-w));
+      min-width: 0;
+    }
+
+    .container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 20px 28px 40px;
+    }
+
+    .top-nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-bottom: 26px;
+    }
+
+    .search-sm {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 10px 14px;
+      min-width: 0;
+      max-width: 460px;
+      color: var(--muted);
+      flex: 1;
+    }
+
+    .search-sm input,
+    .search-lg input {
+      border: none;
+      outline: none;
+      width: 100%;
+      font-size: 14px;
+      background: transparent;
+    }
+
+    .auth {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      white-space: nowrap;
+      margin-left: auto;
+    }
+
+    .btn {
+      border: 1px solid var(--border);
+      background: #fff;
+      color: #111;
+      border-radius: 10px;
+      padding: 10px 14px;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 14px;
+    }
+
+    .btn-black {
+      background: var(--black);
+      color: #fff;
+      border-color: var(--black);
+    }
+
+    .hero {
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 24px;
+      display: grid;
+      grid-template-columns: 1.4fr 1fr;
+      gap: 24px;
+      align-items: center;
+      margin-bottom: 24px;
+    }
+
+    .hero h1 {
+      margin: 0 0 8px;
+      font-size: 42px;
+      line-height: 1.1;
+      letter-spacing: -0.8px;
+    }
+
+    .hero p {
+      margin: 0 0 16px;
+      color: var(--muted);
+      max-width: 600px;
+      line-height: 1.5;
+      font-size: 15px;
+    }
+
+    .illustration {
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .illustration img {
+      width: 100%;
+      height: 100%;
+  
+    }
+
+    .data-search {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .search-lg {
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 13px 14px;
+      flex: 1;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--muted);
+    }
+
+    .chips {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 24px;
+    }
+
+    .chip {
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 8px 12px;
+      background: var(--chip);
+      font-size: 13px;
+      color: #4b5563;
+    }
+
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px;
+    }
+
+    .section-title {
+      margin: 0;
+      font-size: 20px;
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .see-all {
+      font-size: 14px;
+      text-decoration: none;
+      color: #111;
+      font-weight: 600;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 16px;
+      margin-bottom: 26px;
+    }
+
+    .card {
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      overflow: hidden;
+      background: #fff;
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+    }
+
+    .thumb {
+      aspect-ratio: 16 / 9;
+      background: #f3f4f6;
+      border-bottom: 1px solid var(--border);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .thumb.gold,
+    .thumb.students,
+    .thumb.server,
+    .thumb.car { background: #f3f4f6; }
+
+    .thumb::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        100deg,
+        rgba(243, 244, 246, 0) 20%,
+        rgba(229, 231, 235, 0.9) 50%,
+        rgba(243, 244, 246, 0) 80%
+      );
+      transform: translateX(-100%);
+      animation: thumb-shimmer 1.4s infinite;
+    }
+
+    .thumb::after {
+      content: "";
+      position: absolute;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      border: 2px solid #d1d5db;
+      border-top-color: #9ca3af;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      animation: thumb-spin 1s linear infinite;
+    }
+
+    @keyframes thumb-shimmer {
+      100% {
+        transform: translateX(100%);
+      }
+    }
+
+    @keyframes thumb-spin {
+      to {
+        transform: translate(-50%, -50%) rotate(360deg);
+      }
+    }
+
+    .card-body {
+      padding: 12px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 8px;
+      align-items: start;
+    }
+
+    .title {
+      margin: 0;
+      font-size: 15px;
+      line-height: 1.35;
+      font-weight: 700;
+    }
+
+    .author {
+      margin: 4px 0 0;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .dots {
+      border: none;
+      background: transparent;
+      font-size: 20px;
+      line-height: 1;
+      cursor: pointer;
+      color: #6b7280;
+    }
+
+    .card-actions {
+      padding: 0 12px 12px;
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .btn-small {
+      font-size: 12px;
+      padding: 7px 10px;
+      border-radius: 8px;
+    }
+
+    .files {
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 14px;
+      background: #fff;
+    }
+
+    .files h3 {
+      margin: 0 0 10px;
+      font-size: 18px;
+    }
+
+    .file-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      align-items: center;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 10px 12px;
+      margin-top: 10px;
+      font-size: 14px;
+    }
+
+    details {
+      margin-top: 12px;
+      border-top: 1px dashed var(--border);
+      padding-top: 10px;
+    }
+
+    summary {
+      cursor: pointer;
+      font-weight: 600;
+      color: #111;
+      list-style: none;
+    }
+
+    summary::-webkit-details-marker {
+      display: none;
+    }
+
+    summary::before {
+      content: "+ ";
+      color: #111;
+    }
+
+    details[open] summary::before {
+      content: "- ";
+    }
+
+    .mobile-toggle {
+      display: none;
+      border: 1px solid var(--border);
+      background: #fff;
+      border-radius: 10px;
+      padding: 8px 10px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    @media (max-width: 1100px) {
+      .cards {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .hero {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 860px) {
+      :root {
+        --sidebar-w: 78px;
+      }
+
+      .logo {
+        font-size: 16px;
+      }
+
+      .create-btn {
+        text-align: center;
+        padding: 8px;
+      }
+
+      .nav-item span:last-child {
+        display: none;
+      }
+
+      .search-sm {
+        min-width: 0;
+      }
+    }
+
+    @media (max-width: 700px) {
+      .sidebar {
+        transform: translateX(-100%);
+        transition: transform 0.2s ease;
+        width: 250px;
+        z-index: 30;
+      }
+
+      .sidebar.open {
+        transform: translateX(0);
+      }
+
+      .main {
+        margin-left: 0;
+        width: 100%;
+      }
+
+      .mobile-toggle {
+        display: inline-flex;
+        align-items: center;
+      }
+
+      .top-nav {
+        position: sticky;
+        top: 0;
+        background: #fff;
+        z-index: 20;
+        padding-top: 6px;
+      }
+
+      .cards {
+        grid-template-columns: 1fr;
+      }
+
+      .data-search {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="layout">
+    <aside class="sidebar" id="sidebar">
+      <div class="logo">kaggle</div>
+      <button class="create-btn">+ Create</button>
+
+      <nav class="nav" aria-label="Sidebar Navigation">
+        <a class="nav-item" href="#"><span>🏠</span><span>Home</span></a>
+        <a class="nav-item" href="#"><span>🏆</span><span>Competitions</span></a>
+        <a class="nav-item active" href="#"><span>🗂</span><span>Datasets</span></a>
+        <a class="nav-item" href="#"><span>🤖</span><span>Models</span></a>
+        <a class="nav-item" href="#"><span>📊</span><span>Benchmarks</span></a>
+        <a class="nav-item" href="#"><span>🎮</span><span>Game Arena</span></a>
+        <a class="nav-item" href="#"><span>💻</span><span>Code</span></a>
+        <a class="nav-item" href="#"><span>💬</span><span>Discussions</span></a>
+        <a class="nav-item" href="#"><span>🎓</span><span>Learn</span></a>
+        <a class="nav-item" href="#"><span>⋯</span><span>More</span></a>
+      </nav>
+    </aside>
+
+    <main class="main">
+      <div class="container">
+        <section class="top-nav">
+          <button class="mobile-toggle" id="menuBtn">☰ Menu</button>
+          <label class="search-sm" aria-label="Top Search">
+            <span>🔍</span>
+            <input type="text" placeholder="Search" />
+          </label>
+          <div class="auth">
+            <button class="btn">Sign In</button>
+            <button class="btn btn-black">Register</button>
+          </div>
+        </section>
+
+        <section class="hero">
+          <div>
+            <h1>Datasets</h1>
+            <p>
+              Explore, analyze, and share quality data. Learn more about data types,
+              creating, and collaborating.
+            </p>
+            <button class="btn btn-black">+ New Dataset</button>
+          </div>
+          <div class="illustration" aria-hidden="true">
+            <img src="landing-header-light.svg" alt="Datasets illustration" />
+          </div>
+        </section>
+
+        <section class="data-search">
+          <label class="search-lg" aria-label="Dataset Search">
+            <span>🔍</span>
+            <input type="text" placeholder="Search datasets" />
+          </label>
+          <button class="btn">⛃ Filters</button>
+        </section>
+
+        <section class="chips" aria-label="Category Filters">
+          <span class="chip">All datasets</span>
+          <span class="chip">Computer Science</span>
+          <span class="chip">Education</span>
+          <span class="chip">Classification</span>
+          <span class="chip">Computer Vision</span>
+          <span class="chip">NLP</span>
+          <span class="chip">Data Visualization</span>
+          <span class="chip">Pre-Trained Model</span>
+        </section>
+
+        <section>
+          <div class="section-head">
+            <h2 class="section-title">📈 Trending Datasets</h2>
+            <a class="see-all" href="#">See All</a>
+          </div>
+
+          <div class="cards">
+            <article class="card">
+              <div class="thumb gold"></div>
+              <div class="card-body">
+                <div>
+                  <p class="title">Gold Price Dynamics</p>
+                  <p class="author">Krupal Patel</p>
+                </div>
+                <button class="dots" aria-label="More options">⋮</button>
+              </div>
+              <div class="card-actions">
+                <a class="btn btn-small" href="#" download>Download</a>
+              </div>
+            </article>
+
+            <article class="card">
+              <div class="thumb students"></div>
+              <div class="card-body">
+                <div>
+                  <p class="title">Student Placement Prediction Dataset</p>
+                  <p class="author">Aarav Mehta</p>
+                </div>
+                <button class="dots" aria-label="More options">⋮</button>
+              </div>
+              <div class="card-actions">
+                <a class="btn btn-small" href="#" download>Download</a>
+              </div>
+            </article>
+
+            <article class="card">
+              <div class="thumb server"></div>
+              <div class="card-body">
+                <div>
+                  <p class="title">Steam Games Dataset 2025</p>
+                  <p class="author">Nikhil Rao</p>
+                </div>
+                <button class="dots" aria-label="More options">⋮</button>
+              </div>
+              <div class="card-actions">
+                <a class="btn btn-small" href="#" download>Download</a>
+              </div>
+            </article>
+
+            <article class="card">
+              <div class="thumb car"></div>
+              <div class="card-body">
+                <div>
+                  <p class="title">Car Fuel Efficiency &amp; CO2 Emissions Dataset</p>
+                  <p class="author">Riya Sharma</p>
+                </div>
+                <button class="dots" aria-label="More options">⋮</button>
+              </div>
+              <div class="card-actions">
+                <a class="btn btn-small" href="#" download>Download</a>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <section class="files">
+          <h3>Available Files</h3>
+
+          <div class="file-row">
+            <span>Play tennis.csv</span>
+            <a class="btn btn-small btn-black" href="Play tennis.csv" download>Download CSV</a>
+          </div>
+
+          <details>
+            <summary>practiceset </summary>
+
+            <div class="file-row">
+              <span>Cloud Computing and Web Services(Altaf).pdf</span>
+              <a class="btn btn-small" href="Cloud Computing.pdf" download>Download PDF</a>
+            </div>
+
+            <div class="file-row">
+              <span>Data Science All Practicals Done.pdf</span>
+              <a class="btn btn-small" href="Data Science.pdf" download>Download PDF</a>
+            </div>
+
+            <div class="file-row">
+              <span>IR PRACTICAL RAJ.pdf</span>
+              <a class="btn btn-small" href="IR Practiceset.pdf" download>Download PDF</a>
+            </div>
+          </details>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    const menuBtn = document.getElementById("menuBtn");
+    const sidebar = document.getElementById("sidebar");
+
+    menuBtn.addEventListener("click", () => {
+      sidebar.classList.toggle("open");
+    });
+  </script>
+</body>
+</html>
