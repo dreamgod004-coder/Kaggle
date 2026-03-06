@@ -453,6 +453,133 @@
       background: #f3f4f6;
     }
 
+    .csv-preview {
+      margin-top: 14px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      background: #fff;
+    }
+
+    .csv-preview-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .csv-name {
+      margin: 0;
+      font-size: 18px;
+      font-weight: 700;
+    }
+
+    .csv-size {
+      font-weight: 500;
+      color: var(--muted);
+    }
+
+    .csv-actions {
+      display: flex;
+      gap: 8px;
+    }
+
+    .csv-tabs {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 0 16px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .csv-tab-list {
+      display: flex;
+      gap: 16px;
+    }
+
+    .csv-tab {
+      padding: 10px 0;
+      color: #4b5563;
+      font-size: 14px;
+      border-bottom: 3px solid transparent;
+    }
+
+    .csv-tab.active {
+      color: #111;
+      font-weight: 600;
+      border-bottom-color: #111;
+    }
+
+    .csv-col-count {
+      color: #374151;
+      font-size: 14px;
+      white-space: nowrap;
+    }
+
+    .csv-about {
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--border);
+      font-size: 14px;
+      color: #4b5563;
+    }
+
+    .csv-about strong {
+      display: block;
+      color: #111;
+      margin-bottom: 8px;
+      font-size: 16px;
+    }
+
+    .csv-table-wrap {
+      overflow-x: auto;
+    }
+
+    .csv-table {
+      width: 100%;
+      min-width: 760px;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+
+    .csv-table th,
+    .csv-table td {
+      border-right: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 10px 12px;
+      text-align: left;
+      vertical-align: bottom;
+      white-space: nowrap;
+    }
+
+    .csv-table th:last-child,
+    .csv-table td:last-child {
+      border-right: none;
+    }
+
+    .csv-table th {
+      background: #fafafa;
+      font-weight: 600;
+      color: #111;
+    }
+
+    .mini-hist {
+      margin-top: 8px;
+      height: 42px;
+      display: flex;
+      align-items: end;
+      gap: 2px;
+    }
+
+    .mini-hist span {
+      width: 7px;
+      background: #0e7490;
+      border-radius: 1px 1px 0 0;
+      display: inline-block;
+    }
+
     details {
       margin-top: 12px;
       border-top: 1px dashed var(--border);
@@ -746,14 +873,80 @@
             <span>housing.csv</span>
             <a class="btn btn-small btn-black" href="housing.csv" download>Download CSV</a>
           </div>
+
+          <div class="csv-preview">
+            <div class="csv-preview-head">
+              <p class="csv-name">housing.csv <span class="csv-size">(1.42 MB)</span></p>
+              <div class="csv-actions">
+                <a class="btn btn-small" href="housing.csv" download>Download</a>
+                <button class="btn btn-small">⤢</button>
+              </div>
+            </div>
+
+            <div class="csv-tabs">
+              <div class="csv-tab-list">
+                <span class="csv-tab active">Detail</span>
+                <span class="csv-tab">Compact</span>
+                <span class="csv-tab">Column</span>
+              </div>
+              <span class="csv-col-count">10 of 10 columns</span>
+            </div>
+
+            <div class="csv-about">
+              <strong>About this file</strong>
+              This file does not have a description yet.
+            </div>
+
+            <div class="csv-table-wrap">
+              <table class="csv-table">
+                <thead>
+                  <tr>
+                    <th>longitude
+                      <div class="mini-hist">
+                        <span style="height:6px"></span><span style="height:16px"></span><span style="height:28px"></span><span style="height:18px"></span><span style="height:10px"></span><span style="height:8px"></span><span style="height:24px"></span><span style="height:34px"></span>
+                      </div>
+                    </th>
+                    <th>latitude
+                      <div class="mini-hist">
+                        <span style="height:10px"></span><span style="height:22px"></span><span style="height:34px"></span><span style="height:12px"></span><span style="height:8px"></span><span style="height:9px"></span><span style="height:14px"></span><span style="height:20px"></span>
+                      </div>
+                    </th>
+                    <th>housing_median_age
+                      <div class="mini-hist">
+                        <span style="height:12px"></span><span style="height:18px"></span><span style="height:26px"></span><span style="height:20px"></span><span style="height:30px"></span><span style="height:22px"></span><span style="height:26px"></span><span style="height:20px"></span>
+                      </div>
+                    </th>
+                    <th>total_rooms
+                      <div class="mini-hist">
+                        <span style="height:36px"></span><span style="height:30px"></span><span style="height:12px"></span><span style="height:8px"></span><span style="height:6px"></span><span style="height:4px"></span><span style="height:3px"></span><span style="height:2px"></span>
+                      </div>
+                    </th>
+                    <th>population
+                      <div class="mini-hist">
+                        <span style="height:34px"></span><span style="height:16px"></span><span style="height:9px"></span><span style="height:6px"></span><span style="height:5px"></span><span style="height:4px"></span><span style="height:3px"></span><span style="height:2px"></span>
+                      </div>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr><td>-122.23</td><td>37.88</td><td>41.0</td><td>880.0</td><td>322.0</td></tr>
+                  <tr><td>-122.22</td><td>37.86</td><td>21.0</td><td>7099.0</td><td>2401.0</td></tr>
+                  <tr><td>-122.24</td><td>37.85</td><td>52.0</td><td>1467.0</td><td>496.0</td></tr>
+                  <tr><td>-122.25</td><td>37.85</td><td>52.0</td><td>1274.0</td><td>558.0</td></tr>
+                  <tr><td>-122.25</td><td>37.85</td><td>52.0</td><td>1627.0</td><td>565.0</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
           <details>
             <summary>practiceset </summary>
 
             <div class="file-row">
               <span>Cloud Computing</span>
               <div class="file-actions">
-                <button class="btn btn-small view-pdf-btn" data-target="viewer-cloud" data-src="Cloud Computing">View PDF</button>
-                <a class="btn btn-small" href="Cloud Computing" download>Download PDF</a>
+                <button class="btn btn-small view-pdf-btn" data-target="viewer-cloud" data-src="Cloud Computing.pdf">View PDF</button>
+                <a class="btn btn-small" href="Cloud Computing.pdf" download>Download PDF</a>
               </div>
             </div>
             <div class="pdf-inline" id="viewer-cloud">
@@ -766,8 +959,8 @@
             <div class="file-row">
               <span>Data Science</span>
               <div class="file-actions">
-                <button class="btn btn-small view-pdf-btn" data-target="viewer-data-science" data-src="Data Science">View PDF</button>
-                <a class="btn btn-small" href="Data Science" download>Download PDF</a>
+                <button class="btn btn-small view-pdf-btn" data-target="viewer-data-science" data-src="Data science.pdf">View PDF</button>
+                <a class="btn btn-small" href="Data science.pdf" download>Download PDF</a>
               </div>
             </div>
             <div class="pdf-inline" id="viewer-data-science">
