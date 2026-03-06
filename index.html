@@ -414,6 +414,45 @@
       font-size: 14px;
     }
 
+    .file-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .pdf-inline {
+      display: none;
+      margin: 8px 0 14px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+      background: #fff;
+    }
+
+    .pdf-inline.show {
+      display: block;
+    }
+
+    .pdf-inline-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 10px;
+      border-bottom: 1px solid var(--border);
+      background: #f9fafb;
+      font-size: 13px;
+      color: #374151;
+    }
+
+    .pdf-frame {
+      width: 100%;
+      height: 520px;
+      border: 0;
+      display: block;
+      background: #f3f4f6;
+    }
+
     details {
       margin-top: 12px;
       border-top: 1px dashed var(--border);
@@ -703,23 +742,68 @@
             <span>Play tennis.csv</span>
             <a class="btn btn-small btn-black" href="Play tennis.csv" download>Download CSV</a>
           </div>
-
+          <div class="file-row">
+            <span>housing.csv</span>
+            <a class="btn btn-small btn-black" href="housing.csv" download>Download CSV</a>
+          </div>
           <details>
             <summary>practiceset </summary>
 
             <div class="file-row">
               <span>Cloud Computing</span>
-              <a class="btn btn-small" href="Cloud Computing.pdf" download>Download PDF</a>
+              <div class="file-actions">
+                <button class="btn btn-small view-pdf-btn" data-target="viewer-cloud" data-src="Cloud Computing">View PDF</button>
+                <a class="btn btn-small" href="Cloud Computing" download>Download PDF</a>
+              </div>
             </div>
-
+            <div class="pdf-inline" id="viewer-cloud">
+              <div class="pdf-inline-head">
+                <span>Cloud Computing</span>
+                <button class="btn btn-small close-pdf-btn" data-target="viewer-cloud">Close</button>
+              </div>
+              <iframe class="pdf-frame" title="Cloud Computing PDF Viewer"></iframe>
+            </div>
             <div class="file-row">
               <span>Data Science</span>
-              <a class="btn btn-small" href="Data Science.pdf" download>Download PDF</a>
+              <div class="file-actions">
+                <button class="btn btn-small view-pdf-btn" data-target="viewer-data-science" data-src="Data Science">View PDF</button>
+                <a class="btn btn-small" href="Data Science" download>Download PDF</a>
+              </div>
             </div>
-
+            <div class="pdf-inline" id="viewer-data-science">
+              <div class="pdf-inline-head">
+                <span>Data Science</span>
+                <button class="btn btn-small close-pdf-btn" data-target="viewer-data-science">Close</button>
+              </div>
+              <iframe class="pdf-frame" title="Data Science PDF Viewer"></iframe>
+            </div>
             <div class="file-row">
-              <span>IR Practiceset.pdf</span>
-              <a class="btn btn-small" href="IR Practiceset.pdf" download>Download PDF</a>
+              <span>IR</span>
+              <div class="file-actions">
+                <button class="btn btn-small view-pdf-btn" data-target="viewer-ir" data-src="IR Practiceset.pdf">View PDF</button>
+                <a class="btn btn-small" href="IR Practiceset.pdf" download>Download PDF</a>
+              </div>
+            </div>
+            <div class="pdf-inline" id="viewer-ir">
+              <div class="pdf-inline-head">
+                <span>IR Practiceset.pdf</span>
+                <button class="btn btn-small close-pdf-btn" data-target="viewer-ir">Close</button>
+              </div>
+              <iframe class="pdf-frame" title="IR Practiceset PDF Viewer"></iframe>
+            </div>
+            <div class="file-row">
+              <span>EH</span>
+              <div class="file-actions">
+                <button class="btn btn-small view-pdf-btn" data-target="viewer-eh" data-src="EH.pdf">View PDF</button>
+                <a class="btn btn-small" href="EH.pdf" download>Download PDF</a>
+              </div>
+            </div>
+            <div class="pdf-inline" id="viewer-eh">
+              <div class="pdf-inline-head">
+                <span>EH.pdf</span>
+                <button class="btn btn-small close-pdf-btn" data-target="viewer-eh">Close</button>
+              </div>
+              <iframe class="pdf-frame" title="EH PDF Viewer"></iframe>
             </div>
           </details>
         </section>
@@ -732,6 +816,8 @@
     const sidebar = document.getElementById("sidebar");
     const closeSidebarBtn = document.getElementById("closeSidebar");
     const sidebarBackdrop = document.getElementById("sidebarBackdrop");
+    const viewPdfButtons = document.querySelectorAll(".view-pdf-btn");
+    const closePdfButtons = document.querySelectorAll(".close-pdf-btn");
 
     function openSidebar() {
       sidebar.classList.add("open");
@@ -751,6 +837,43 @@
 
     closeSidebarBtn.addEventListener("click", closeSidebar);
     sidebarBackdrop.addEventListener("click", closeSidebar);
+
+    function closeAllPdfViewers() {
+      document.querySelectorAll(".pdf-inline").forEach((viewer) => {
+        viewer.classList.remove("show");
+        const frame = viewer.querySelector("iframe");
+        if (frame) frame.removeAttribute("src");
+      });
+    }
+
+    viewPdfButtons.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const targetId = btn.getAttribute("data-target");
+        const src = btn.getAttribute("data-src");
+        const viewer = document.getElementById(targetId);
+        if (!viewer) return;
+
+        const frame = viewer.querySelector("iframe");
+        const alreadyOpen = viewer.classList.contains("show");
+        closeAllPdfViewers();
+
+        if (!alreadyOpen) {
+          viewer.classList.add("show");
+          if (frame) frame.src = src;
+        }
+      });
+    });
+
+    closePdfButtons.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const targetId = btn.getAttribute("data-target");
+        const viewer = document.getElementById(targetId);
+        if (!viewer) return;
+        const frame = viewer.querySelector("iframe");
+        viewer.classList.remove("show");
+        if (frame) frame.removeAttribute("src");
+      });
+    });
   </script>
 </body>
 </html>
